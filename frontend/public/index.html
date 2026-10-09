@@ -59,6 +59,7 @@
   .container { width: min(1240px, 100% - 40px); margin-inline: auto; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  input[type="file"]:focus, input[type="file"]:focus-visible { outline: none !important; box-shadow: none !important; }
 
   /* NAV */
   .nav {
@@ -135,12 +136,12 @@
   /* UPLOAD */
   .upload-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
   .dropzone {
-    position: relative; border: 1.5px dashed #2a3a52; border-radius: var(--radius);
+    position: relative; overflow: hidden; border: 1.5px dashed #2a3a52; border-radius: var(--radius);
     padding: 40px 24px; text-align: center; background: rgba(17,26,41,0.5);
     transition: border-color .2s, background .2s; cursor: pointer;
   }
   .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: var(--accent-dim); }
-  .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .dropzone input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; outline: none !important; }
   .dz-icon { width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 14px; display: grid; place-items: center; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(34,211,238,.3); }
   .dropzone h4 { font-size: 17px; margin-bottom: 4px; }
   .dropzone p { color: var(--muted); font-size: 13px; }
@@ -588,7 +589,7 @@
       <div class="feat-grid">
         <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></div><h4>SQL Injection aşkarlama</h4><p>UNION, boolean, time-based və stacked query texnikalarını URL-decode olunmuş payload-larda tanıyır.</p></div>
         <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></div><h4>XSS və skript inyeksiyası</h4><p>Reflected və stored XSS cəhdlərini, event handler və javascript: protokol sui-istifadələrini tutur.</p></div>
-        <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h4>Brute Force korrelyasiyası</h4><p>IP üzrə uğursuz giriş cəhdlərini qruplaşdırır və hədd aşıldıqda kritik xəbərdarlıq yaradır.</p></div>
+        <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></div><h4>Brute Force korrelyasiyası</h4><p>IP üzrə uğursuz giriş cəhdlərini qruplaşdırır və hədd aşıldıqda kritik xəbərdarlıq yaradır.</p></div>
         <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div><h4>AI izahlar</h4><p>Hər hadisə üçün sadə dildə izah: nə baş verdi, niyə təhlükəlidir və nə etmək lazımdır.</p></div>
         <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><h4>Hazır müdafiə tədbirləri</h4><p>iptables, Nginx, fail2ban konfiqurasiyaları və təhlükəsiz kod nümunələri bir kliklə.</p></div>
         <div class="card feat"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h4>MITRE ATT&amp;CK və OWASP</h4><p>Hər təhdid beynəlxalq standartlara uyğun təsnif olunur — auditorlar və komandalar üçün aydın.</p></div>
@@ -631,8 +632,7 @@
 (() => {
   "use strict";
 
-  // Set this to your backend LLM endpoint (POST {question, summary} -> {answer}) to replace the local explanation engine.
-  const AI_ENDPOINT = "";
+  const AI_ENDPOINT = "http://13.60.250.57:8000/api/analyze";
 
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -842,14 +842,14 @@
   const SAMPLES = { web: genWeb, ssh: genSsh, mixed: genMixed };
 
   // ---------- INPUT ----------
-  const logInput = $("#logInput");
-  const analyzeBtn = $("#analyzeBtn");
+  const logInput = \$("#logInput");
+  const analyzeBtn = \$("#analyzeBtn");
   function updateInputMeta() {
     const n = logInput.value.split(/\r?\n/).filter((l) => l.trim()).length;
-    $("#lineCount").textContent = n.toLocaleString("az") + " sətir";
+    \$("#lineCount").textContent = n.toLocaleString("az") + " sətir";
     analyzeBtn.disabled = n === 0;
   }
-  logInput.addEventListener("input", () => { $("#fileMeta").textContent = "Əl ilə daxil edilib"; updateInputMeta(); });
+  logInput.addEventListener("input", () => { \$("#fileMeta").textContent = "Əl ilə daxil edilib"; updateInputMeta(); });
 
   function loadFile(file) {
     if (!file) return;
@@ -857,27 +857,22 @@
     const reader = new FileReader();
     reader.onload = () => {
       logInput.value = reader.result;
-      $("#fileMeta").textContent = `${file.name} · ${(file.size / 1024).toFixed(1)} KB`;
+      \$("#fileMeta").textContent = `${file.name} · ${(file.size / 1024).toFixed(1)} KB`;
       updateInputMeta();
       toast("Fayl yükləndi — analizə hazırdır");
     };
     reader.readAsText(file);
   }
-  $("#fileInput").addEventListener("change", (e) => loadFile(e.target.files[0]));
-  const dz = $("#dropzone");
-  ["dragenter", "dragover"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.add("drag"); }));
-  ["dragleave", "drop"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.remove("drag"); }));
-  dz.addEventListener("drop", (e) => loadFile(e.dataTransfer.files[0]));
-
-  $$("[data-sample]").forEach((b) => b.addEventListener("click", () => {
+  \$("#fileInput").addEventListener("change", (e) => loadFile(e.target.files[0]));
+  const dz = $("#dropzone");   ["dragenter", "dragover"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.add("drag"); }));   ["dragleave", "drop"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.remove("drag"); }));   dz.addEventListener("drop", (e) => loadFile(e.dataTransfer.files[0]));    $\$("[data-sample]").forEach((b) => b.addEventListener("click", () => {
     const lines = SAMPLES[b.dataset.sample]();
     logInput.value = lines.join("\n");
-    $("#fileMeta").textContent = `nümunə_${b.dataset.sample}.log · ${(logInput.value.length / 1024).toFixed(1)} KB`;
+    \$("#fileMeta").textContent = `nümunə_${b.dataset.sample}.log · ${(logInput.value.length / 1024).toFixed(1)} KB`;
     updateInputMeta();
-    if (b.dataset.run) { $("#upload").scrollIntoView({ behavior: "smooth" }); setTimeout(runAnalysis, 500); }
+    if (b.dataset.run) { \$("#upload").scrollIntoView({ behavior: "smooth" }); setTimeout(runAnalysis, 500); }
     else toast("Nümunə loq yükləndi");
   }));
-  $("#clearBtn").addEventListener("click", () => { logInput.value = ""; $("#fileMeta").textContent = "Fayl seçilməyib"; $("#fileInput").value = ""; updateInputMeta(); });
+  $("#clearBtn").addEventListener("click", () => { logInput.value = ""; $("#fileMeta").textContent = "Fayl seçilməyib"; \$("#fileInput").value = ""; updateInputMeta(); });
   analyzeBtn.addEventListener("click", runAnalysis);
 
   // ---------- SCAN ANIMATION ----------
@@ -916,7 +911,7 @@
       if (p < 1) requestAnimationFrame(tick);
       else {
         addTerm(`[done] ${res.events.length} təhdid aşkar edildi · ${res.ms.toFixed(1)} ms`, res.events.length > 0);
-        setTimeout(() => { render(res); analyzeBtn.disabled = false; $("#dashboard").scrollIntoView({ behavior: "smooth" }); }, 450);
+        setTimeout(() => { render(res); analyzeBtn.disabled = false; \$("#dashboard").scrollIntoView({ behavior: "smooth" }); }, 450);
       }
     }
     setTimeout(() => requestAnimationFrame(tick), 500);
@@ -931,36 +926,35 @@
 
   function render(res) {
     result = res; page = 0; filter = "all"; query = "";
-    $("#searchInput").value = "";
-    $$(".filter").forEach((f) => f.classList.toggle("on", f.dataset.filter === "all"));
-    $("#emptyState").classList.add("hidden");
-    const r = $("#results"); r.classList.remove("hidden"); r.classList.remove("fade-in"); void r.offsetWidth; r.classList.add("fade-in");
-    $("#reportActions").style.display = "flex";
+    $("#searchInput").value = "";     $\$(".filter").forEach((f) => f.classList.toggle("on", f.dataset.filter === "all"));
+    \$("#emptyState").classList.add("hidden");
+    const r = \$("#results"); r.classList.remove("hidden"); r.classList.remove("fade-in"); void r.offsetWidth; r.classList.add("fade-in");
+    \$("#reportActions").style.display = "flex";
 
     const ev = res.events;
     const ips = new Set(ev.map((e) => e.ip));
     const types = new Set(ev.map((e) => e.type));
     const crit = ev.filter((e) => e.severity === "critical").length;
-    countUp($("#kLines"), res.lines);
-    countUp($("#kThreats"), ev.length);
-    countUp($("#kCritical"), crit);
-    countUp($("#kIps"), ips.size);
-    countUp($("#kTypes"), types.size);
-    $("#kTime").textContent = res.ms.toFixed(1) + " ms-də";
+    countUp(\$("#kLines"), res.lines);
+    countUp(\$("#kThreats"), ev.length);
+    countUp(\$("#kCritical"), crit);
+    countUp(\$("#kIps"), ips.size);
+    countUp(\$("#kTypes"), types.size);
+    \$("#kTime").textContent = res.ms.toFixed(1) + " ms-də";
     const attackedLines = res.parsed.filter((p) => p.attacked).length;
-    $("#kRate").textContent = ((attackedLines / Math.max(1, res.lines)) * 100).toFixed(1) + "% zərərli trafik";
-    $("#dashSub").textContent = `${res.lines.toLocaleString("az")} sətir analiz edildi · ${new Date().toLocaleString("az")}`;
+    \$("#kRate").textContent = ((attackedLines / Math.max(1, res.lines)) * 100).toFixed(1) + "% zərərli trafik";
+    \$("#dashSub").textContent = `${res.lines.toLocaleString("az")} sətir analiz edildi · ${new Date().toLocaleString("az")}`;
 
     // gauge
     const score = riskScore(ev);
-    const g = $("#gauge");
+    const g = \$("#gauge");
     const col = score >= 75 ? "var(--critical)" : score >= 50 ? "var(--high)" : score >= 25 ? "var(--medium)" : "var(--low)";
     const label = score >= 75 ? "Kritik risk" : score >= 50 ? "Yüksək risk" : score >= 25 ? "Orta risk" : "Aşağı risk";
     g.style.setProperty("--col", col);
     const gs = performance.now();
-    const ga = (n) => { const p = Math.min(1, (n - gs) / 1100); const v = score * (1 - Math.pow(1 - p, 3)); g.style.setProperty("--val", v); $("#riskVal").textContent = Math.round(v); if (p < 1) requestAnimationFrame(ga); };
+    const ga = (n) => { const p = Math.min(1, (n - gs) / 1100); const v = score * (1 - Math.pow(1 - p, 3)); g.style.setProperty("--val", v); \$("#riskVal").textContent = Math.round(v); if (p < 1) requestAnimationFrame(ga); };
     requestAnimationFrame(ga);
-    const rl = $("#riskLabel"); rl.textContent = label; rl.style.color = col; rl.style.background = "color-mix(in srgb, " + col + " 14%, transparent)";
+    const rl = \$("#riskLabel"); rl.textContent = label; rl.style.color = col; rl.style.background = "color-mix(in srgb, " + col + " 14%, transparent)";
 
     // donut
     const byType = {};
@@ -968,9 +962,9 @@
     const entries = Object.entries(byType).sort((a, b) => b[1] - a[1]);
     let acc = 0;
     const stops = entries.map(([k, v]) => { const from = (acc / ev.length) * 100; acc += v; return `${TYPES[k].color} ${from}% ${(acc / ev.length) * 100}%`; });
-    $("#donut").style.background = ev.length ? `conic-gradient(${stops.join(",")})` : "var(--border)";
-    $("#donutTotal").textContent = ev.length;
-    $("#legend").innerHTML = entries.length ? entries.map(([k, v]) => `<div class="legend-item"><i style="background:${TYPES[k].color}"></i><span>${esc(TYPES[k].name)}</span><b>${v}</b></div>`).join("") : `<div class="legend-item"><span>Təhdid tapılmadı</span></div>`;
+    \$("#donut").style.background = ev.length ? `conic-gradient(${stops.join(",")})` : "var(--border)";
+    \$("#donutTotal").textContent = ev.length;
+    \$("#legend").innerHTML = entries.length ? entries.map(([k, v]) => `<div class="legend-item"><i style="background:${TYPES[k].color}"></i><span>${esc(TYPES[k].name)}</span><b>${v}</b></div>`).join("") : `<div class="legend-item"><span>Təhdid tapılmadı</span></div>`;
 
     renderTimeline(res);
     renderAttackers(ev);
@@ -996,7 +990,7 @@
     ev.forEach((e) => { const a = map.get(e.ip) || { n: 0, types: new Set(), worst: "low" }; a.n += e.count || 1; a.types.add(TYPES[e.type].name); if (SEV_ORDER[e.severity] < SEV_ORDER[a.worst]) a.worst = e.severity; map.set(e.ip, a); });
     const list = Array.from(map.entries()).sort((a, b) => b[1].n - a[1].n).slice(0, 6);
     const top = list[0]?.[1].n || 1;
-    $("#attackers").innerHTML = list.length ? list.map(([ip, a]) => `
+    \$("#attackers").innerHTML = list.length ? list.map(([ip, a]) => `
       <div class="attacker">
         <div class="attacker-info">
           <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="ip">${esc(ip)}</span><span class="sev ${a.worst}">${SEV_AZ[a.worst]}</span></div>
@@ -1019,8 +1013,8 @@
     const pages = Math.max(1, Math.ceil(list.length / PAGE));
     page = Math.min(page, pages - 1);
     const slice = list.slice(page * PAGE, page * PAGE + PAGE);
-    $("#eventCount").textContent = list.length;
-    $("#eventsBody").innerHTML = slice.length ? slice.map((e) => `
+    \$("#eventCount").textContent = list.length;
+    \$("#eventsBody").innerHTML = slice.length ? slice.map((e) => `
       <tr data-idx="${result.events.indexOf(e)}" tabindex="0" aria-label="${esc(TYPES[e.type].name)} hadisəsinin detalları">
         <td><span class="sev ${e.severity}">${SEV_AZ[e.severity]}</span></td>
         <td><span class="type-tag"><i style="background:${TYPES[e.type].color}"></i>${esc(TYPES[e.type].name)}</span></td>
@@ -1029,17 +1023,18 @@
         <td class="time">${fmtTime(e.time)}</td>
         <td class="time">#${e.line}</td>
       </tr>`).join("") : `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">${result.events.length ? "Filtrə uyğun hadisə yoxdur" : "Təbriklər — heç bir təhdid aşkarlanmadı"}</td></tr>`;
-    $("#pageInfo").textContent = `Səhifə ${page + 1} / ${pages}`;
-    $("#prevPage").disabled = page === 0;
-    $("#nextPage").disabled = page >= pages - 1;
+    \$("#pageInfo").textContent = `Səhifə ${page + 1} / ${pages}`;
+    \$("#prevPage").disabled = page === 0;
+    \$("#nextPage").disabled = page >= pages - 1;
   }
 
-  $("#searchInput").addEventListener("input", (e) => { query = e.target.value.trim(); page = 0; renderTable(); });
-  $$(".filter").forEach((f) => f.addEventListener("click", () => { filter = f.dataset.filter; page = 0; $$(".filter").forEach((x) => x.classList.toggle("on", x === f)); renderTable(); }));
-  $("#prevPage").addEventListener("click", () => { page--; renderTable(); });
-  $("#nextPage").addEventListener("click", () => { page++; renderTable(); });
-  $("#eventsBody").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-idx]"); if (tr) openDrawer(result.events[+tr.dataset.idx]); });
-  $("#eventsBody").addEventListener("keydown", (e) => { if (e.key === "Enter") { const tr = e.target.closest("tr[data-idx]"); if (tr) openDrawer(result.events[+tr.dataset.idx]); } });
+  \$("#searchInput").addEventListener("input", (e) => { query = e.target.value.trim(); page = 0; renderTable(); });
+  $$(".filter").forEach((f) => f.addEventListener("click", () => { filter = f.dataset.filter; page = 0; $$
+(".filter").forEach((x) => x.classList.toggle("on", x === f)); renderTable(); }));
+  \$("#prevPage").addEventListener("click", () => { page--; renderTable(); });
+  \$("#nextPage").addEventListener("click", () => { page++; renderTable(); });
+  \$("#eventsBody").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-idx]"); if (tr) openDrawer(result.events[+tr.dataset.idx]); });
+  \$("#eventsBody").addEventListener("keydown", (e) => { if (e.key === "Enter") { const tr = e.target.closest("tr[data-idx]"); if (tr) openDrawer(result.events[+tr.dataset.idx]); } });
 
   // ---------- DRAWER ----------
   let lastFocus = null;
@@ -1053,11 +1048,11 @@
   function openDrawer(e) {
     const T = TYPES[e.type];
     lastFocus = document.activeElement;
-    $("#dSev").innerHTML = `<span class="sev ${e.severity}">${SEV_AZ[e.severity]}</span>`;
-    $("#dTitle").textContent = T.name;
+    \$("#dSev").innerHTML = `<span class="sev ${e.severity}">${SEV_AZ[e.severity]}</span>`;
+    \$("#dTitle").textContent = T.name;
     const sameIp = result.events.filter((x) => x.ip === e.ip).length;
     const block = `sudo iptables -A INPUT -s ${e.ip} -j DROP`;
-    $("#drawerBody").innerHTML = `
+    \$("#drawerBody").innerHTML = `
       <div class="meta-grid">
         <div><span>Mənbə IP</span><b>${esc(e.ip)}</b></div>
         <div><span>Vaxt</span><b>${fmtTime(e.time)}</b></div>
@@ -1074,11 +1069,11 @@
         <div class="ai-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>GUARDIAN AI İZAHI</div>
         <p>${esc(T.explain)}</p>
         <p style="margin-top:10px"><strong style="color:var(--text)">Potensial təsir:</strong> ${esc(T.impact)}</p>
-        <p style="margin-top:10px"><strong style="color:var(--text)">Kontekst:</strong> Bu IP ünvanı loqda ümumilikdə ${sameIp} təhdid hadisəsi ilə əlaqələndirilib${e.count ? ` və ${e.count} uğursuz giriş cəhdi edib` : ""}.</p>
+        <p style="margin-top:10px"><strong style="color:var(--text)">Kontekst:</strong> Bu IP ünvanı loqda ümumilikdə ${sameIp} təhdid hadisəsi ilə əlaqələndirilib${e.count ? ` və \${e.count} uğursuz giriş cəhdi edib` : ""}.</p>
       </div>
       <div>
         <div class="d-label">Qarşısını alma addımları</div>
-        <ol class="steps">${T.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+        <ol class="steps">${T.steps.map((s) => `<li>\${esc(s)}</li>`).join("")}</ol>
       </div>
       <div>
         <div class="copy-row"><div class="d-label" style="margin:0">Təhlükəsiz kod / konfiqurasiya</div><button class="btn btn-ghost btn-sm" data-copy="fix">Kopyala</button></div>
@@ -1088,20 +1083,20 @@
         <div class="copy-row"><div class="d-label" style="margin:0">Dərhal müdaxilə</div><button class="btn btn-ghost btn-sm" data-copy="block">Kopyala</button></div>
         <div class="code" id="blockCode">${esc(block)}</div>
       </div>`;
-    $("#drawerBody").querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => copy(b.dataset.copy === "fix" ? T.fix : block)));
+    \$("#drawerBody").querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => copy(b.dataset.copy === "fix" ? T.fix : block)));
     $("#drawer").classList.add("open"); $("#overlay").classList.add("open");
-    $("#closeDrawer").focus();
+    \$("#closeDrawer").focus();
   }
   function closeDrawer() { $("#drawer").classList.remove("open"); $("#overlay").classList.remove("open"); lastFocus?.focus(); }
-  $("#closeDrawer").addEventListener("click", closeDrawer);
-  $("#overlay").addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("#drawer").classList.contains("open")) closeDrawer(); });
+  \$("#closeDrawer").addEventListener("click", closeDrawer);
+  \$("#overlay").addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && \$("#drawer").classList.contains("open")) closeDrawer(); });
 
   // ---------- AI ANALYST ----------
   let typingToken = 0;
   function typeOut(html) {
-    const el = $("#aiText"), token = ++typingToken;
-    $("#aiStatus").textContent = "analiz edir...";
+    const el = \$("#aiText"), token = ++typingToken;
+    \$("#aiStatus").textContent = "analiz edir...";
     const tmp = document.createElement("div"); tmp.innerHTML = html;
     const plain = tmp.textContent; let i = 0;
     const step = () => {
@@ -1109,7 +1104,7 @@
       i = Math.min(plain.length, i + 3);
       el.innerHTML = esc(plain.slice(0, i)) + '<span class="caret"></span>';
       if (i < plain.length) setTimeout(step, 12);
-      else { el.innerHTML = html; $("#aiStatus").textContent = "hazırdır"; }
+      else { el.innerHTML = html; \$("#aiStatus").textContent = "hazırdır"; }
     };
     step();
   }
@@ -1140,7 +1135,7 @@
     const { topIps, topTypes, byType } = summaryData();
     const findType = Object.keys(TYPES).find((k) => s.includes(k) || s.includes(TYPES[k].name.toLowerCase().split(" ")[0]) || (k === "sqli" && /sql/.test(s)) || (k === "brute" && /brute|parol|giriş/.test(s)) || (k === "cmdi" && /command|əmr/.test(s)));
     if (/ip|blok/.test(s)) return `<strong>Bloklanmalı IP-lər:</strong>\n` + topIps.slice(0, 5).map(([ip, n]) => `• ${esc(ip)} — ${n} hadisə`).join("\n") + `\n\nYuxarıdakı "Blok skriptini kopyala" düyməsi ilə hazır iptables əmrlərini əldə edə bilərsiniz.`;
-    if (findType) { const T = TYPES[findType]; return `<strong>${esc(T.name)}</strong>${byType[findType] ? ` — bu loqda ${byType[findType]} hadisə` : " — bu loqda aşkarlanmayıb"}.\n\n${esc(T.explain)}\n\n<strong>Qorunma:</strong>\n` + T.steps.map((x) => "• " + esc(x)).join("\n"); }
+    if (findType) { const T = TYPES[findType]; return `<strong>${esc(T.name)}</strong>${byType[findType] ? ` — bu loqda \${byType[findType]} hadisə` : " — bu loqda aşkarlanmayıb"}.\n\n${esc(T.explain)}\n\n<strong>Qorunma:</strong>\n` + T.steps.map((x) => "• " + esc(x)).join("\n"); }
     if (/təhlükəli|kritik|ən/.test(s)) { const T = TYPES[topTypes[0][0]]; return `<strong>Ən təhlükəli: ${esc(T.name)}</strong> (${SEV_AZ[T.severity]} səviyyə, ${topTypes[0][1]} hadisə).\n\n<strong>Təsir:</strong> ${esc(T.impact)}`; }
     if (/addım|nə et|plan|növbəti/.test(s)) return `<strong>Müdaxilə planı:</strong>\n1. Hücumçu IP-ləri bloklayın (${topIps.slice(0, 3).map((x) => esc(x[0])).join(", ")}).\n2. ${esc(TYPES[topTypes[0][0]].steps[0])}\n3. Təsirlənmiş endpoint-lərin loqlarını son 7 gün üzrə yoxlayın.\n4. Kompromis əlamətləri varsa parolları və API açarlarını dəyişin.\n5. WAF və fail2ban ilə daimi qorunma qurun.`;
     return `Bu loqda ${result.events.length} təhdid var. Mənə konkret hücum növü (SQLi, XSS, Brute Force), IP bloklama və ya növbəti addımlar barədə sual verə bilərsiniz.`;
@@ -1149,7 +1144,7 @@
   async function ask(q) {
     if (!q.trim()) return;
     if (AI_ENDPOINT && result) {
-      $("#aiStatus").textContent = "düşünür...";
+      \$("#aiStatus").textContent = "düşünür...";
       try {
         const { topIps, byType } = summaryData();
         const r = await fetch(AI_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, summary: { total: result.events.length, byType, topIps: topIps.slice(0, 10) } }) });
@@ -1159,16 +1154,15 @@
     }
     typeOut(localAnswer(q));
   }
-  $("#aiForm").addEventListener("submit", (e) => { e.preventDefault(); const i = $("#aiInput"); ask(i.value); i.value = ""; });
-  $$(".suggests button").forEach((b) => b.addEventListener("click", () => ask(b.dataset.q)));
+  \$("#aiForm").addEventListener("submit", (e) => { e.preventDefault(); const i = $("#aiInput"); ask(i.value); i.value = ""; });   $\$(".suggests button").forEach((b) => b.addEventListener("click", () => ask(b.dataset.q)));
 
   // ---------- EXPORT ----------
-  $("#copyBlock").addEventListener("click", () => {
+  \$("#copyBlock").addEventListener("click", () => {
     if (!result?.events.length) return toast("Bloklanacaq IP yoxdur");
     const ips = Array.from(new Set(result.events.map((e) => e.ip))).filter((ip) => ip !== "naməlum");
     copy("#!/bin/bash\n# AI SOC Guardian — avtomatik blok siyahısı\n" + ips.map((ip) => `iptables -A INPUT -s ${ip} -j DROP`).join("\n"));
   });
-  $("#exportJson").addEventListener("click", () => {
+  \$("#exportJson").addEventListener("click", () => {
     if (!result) return;
     const report = {
       generated: new Date().toISOString(), tool: "AI SOC Guardian v1.0", linesAnalyzed: result.lines, riskScore: riskScore(result.events),
@@ -1179,14 +1173,14 @@
     a.click(); URL.revokeObjectURL(url);
     toast("Hesabat yükləndi");
   });
-  $("#printBtn").addEventListener("click", () => window.print());
+  \$("#printBtn").addEventListener("click", () => window.print());
 
   async function copy(t) {
     try { await navigator.clipboard.writeText(t); toast("Panoya kopyalandı"); }
     catch { toast("Kopyalamaq mümkün olmadı"); }
   }
   let toastTimer;
-  function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200); }
+  function toast(msg) { const t = \$("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200); }
 
   updateInputMeta();
 })();
