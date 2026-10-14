@@ -1,4 +1,4 @@
-.# 🛡️ AI SOC Guardian
+# 🛡️ AI SOC Guardian
 ### AI-Powered Cybersecurity Platform
 
 **A lightweight, AI-powered Security Operations Center (SOC) assistant designed for small businesses, startups, and independent developers.**
