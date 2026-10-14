@@ -9,7 +9,7 @@ from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
-
+# test commit
 app = FastAPI(title="AI SOC Guardian", version="1.0.0")
 
 app.add_middleware(
