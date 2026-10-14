@@ -44,5 +44,7 @@ While traditional regex rules excel at surface-level pattern matching, the **Gem
 
 
 ## 👥 Team Members
-- **Yusif Babayev** ([@BabayevYusif](https://github.com/BabayevYusif))
-- **Nijat Səfərov** ([@nicat700-ctrl](https://github.com/nicat700-ctrl))
+
+- **Yusif Babayev** ([@BabayevYusif](https://github.com/BabayevYusif)) — **Product / Project Lead**
+- **Nijat Səfərov** ([@nicat700-ctrl](https://github.com/nicat700-ctrl)) — **Data / ML & Backend Developer**
+- **Rəsul Məmmədli** ([@RasulMammadli](https://github.com/RasulMammadli)) — **Developer / Engineer**
