@@ -41,3 +41,8 @@ While traditional regex rules excel at surface-level pattern matching, the **Gem
      ├── Visualizes live threat gauge, timeline, and attacker IP distributions
      ├── Displays attack payloads alongside MITRE ATT&CK / OWASP mappings
      └── One-click export for JSON incident reports and defensive shell scripts
+
+
+## 👥 Team Members
+- **Yusif Babayev** ([@BabayevYusif](https://github.com/BabayevYusif))
+- **Nijat Səfərov** ([@nicat700-ctrl](https://github.com/nicat700-ctrl))
