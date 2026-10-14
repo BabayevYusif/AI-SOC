@@ -183,4 +183,4 @@ By combining traditional detection techniques with modern artificial intelligenc
 
 ---
 
-### 🛡️ AI SOC Guardian — Smarter Detection. Faster Analysis. Stronger Security..
+### 🛡️ AI SOC Guardian — Smarter Detection. Faster Analysis. Stronger Security.
